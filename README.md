@@ -1,4 +1,4 @@
-# Google Cloud Functions Go Image Resizer
+# Go Image Resizer Cloud Function
 
 Pure Go Image Resizer function, deployable to Google Cloud Functions, using the [disintegration/imaging](https://github.com/disintegration/imaging) package
 
