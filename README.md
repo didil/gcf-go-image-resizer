@@ -2,6 +2,8 @@
 
 Pure Go Image Resizer function, deployable to Google Cloud Functions, using the [disintegration/imaging](https://github.com/disintegration/imaging) package
 
+Medium article: [Image Resizing with Go and Cloud Functions](https://medium.com/@didil/image-resizing-with-go-and-cloud-functions-792a47e6473d)
+
 *Original gopher image:*   
 ![Big Gopher](/example/gopherizeme_orig.jpg?raw=true "Big Gopher")
 
