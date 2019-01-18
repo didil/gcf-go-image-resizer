@@ -11,6 +11,7 @@ import (
 	"strconv"
 )
 
+// Cloud Function entry point
 func ResizeImage(w http.ResponseWriter, r *http.Request) {
 	// parse the url query sting into ResizerParams
 	p, err := ParseQuery(r)
@@ -27,7 +28,7 @@ func ResizeImage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// encode output image to jpeg buffer
-	encoded, err := EncodeImageToJpg(err, img)
+	encoded, err := EncodeImageToJpg(img)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -45,12 +46,6 @@ func ResizeImage(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func EncodeImageToJpg(err error, img *image.Image) (*bytes.Buffer, error) {
-	encoded := new(bytes.Buffer)
-	err = jpeg.Encode(encoded, *img, nil)
-	return encoded, err
-}
-
 // struct containing the initial query params
 type ResizerParams struct {
 	url    string
@@ -58,7 +53,7 @@ type ResizerParams struct {
 	width  int
 }
 
-// function to parse/validate the url params
+// parse/validate the url params
 func ParseQuery(r *http.Request) (*ResizerParams, error) {
 	var p ResizerParams
 	query := r.URL.Query()
@@ -84,7 +79,7 @@ func NewResizerParams(url string, height int, width int) ResizerParams {
 	return ResizerParams{url, height, width}
 }
 
-// function to fetch the image from provided url and resize it
+// fetch the image from provided url and resize it
 func FetchAndResizeImage(p *ResizerParams) (*image.Image, error) {
 	var dst image.Image
 
@@ -106,4 +101,11 @@ func FetchAndResizeImage(p *ResizerParams) (*image.Image, error) {
 	dst = imaging.Resize(src, p.width, p.height, imaging.Lanczos)
 
 	return &dst, nil
+}
+
+// encode image to jpeg
+func EncodeImageToJpg(img *image.Image) (*bytes.Buffer, error) {
+	encoded := new(bytes.Buffer)
+	err := jpeg.Encode(encoded, *img, nil)
+	return encoded, err
 }
